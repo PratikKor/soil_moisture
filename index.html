@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Soil Moisture</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Include Popper.js and Bootstrap JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-j5WfF1fsspeP7Mz7/iSeVnXScp+L3UofceFkxpWl5KkNqEA9RdwegXjk6TnEIlDz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Z3sB1S6rBur5lZnd6eW6OMtG5zPkCOp0g/je2TGdz/L+fyauCfAPQ8v5+R//peIi"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      // Define a global variable to store moisture data
+      var moistureData = [];
+
+      // Function to update moisture data
+      function updateMoistureData(data) {
+        moistureData = data;
+      }
+
+      // Function to get moisture data
+      function getMoistureData() {
+        return moistureData;
+      }
+
+      // ... (rest of your existing script) ...
+    </script>
+
+    <style>
+      body {
+        margin-left: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      .topnav a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .topnav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+      .topnav .icon {
+        display: none;
+      }
+
+      @media screen and (max-width: 600px) {
+        .topnav a:not(:first-child) {
+          display: none;
+        }
+
+        .topnav a.icon {
+          float: right;
+          display: block;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .topnav.responsive {
+          position: relative;
+        }
+
+        .topnav.responsive .icon {
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+
+        .topnav.responsive a {
+          float: none;
+          display: block;
+          text-align: left;
+        }
+      }
+
+      body {
+        margin: 0;
+      }
+
+      video {
+        object-fit: cover;
+      }
+
+      .btn-custom {
+        height: 2rem;
+      }
+
+      /* Updated style for the chart canvas */
+      canvas {
+        width: 200px;
+        height: 500px;
+        margin: auto;
+      }
+    </style>
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div class="topnav" id="myTopnav">
+      <a href="file:///E:/ksn/home%20page.html" class="active">Home</a>
+      <a href="file:///E:/ksn/Features.html#home">Features</a>
+      <a href="#contact">Contact</a>
+      <a href="#about">About</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+
+    <div class="px-2 py-2 my-2 text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <video
+              id="video1"
+              class="d-block mx-auto mb-4"
+              width="500"
+              height="375"
+              autoplay
+            ></video>
+          </div>
+          <div class="col">
+            <video
+              id="video2"
+              class="d-block mx-auto mb-4"
+              width="500"
+              height="375"
+              autoplay
+            ></video>
+          </div>
+          <div class="col">
+            <video
+              id="video3"
+              class="d-block mx-auto mb-4"
+              width="500"
+              height="375"
+              autoplay
+            ></video>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="display-5 fw-bold text-body-emphasis">
+        Video input from the farm
+      </h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+          You can either start irrigation from here or it will work
+          automatically.
+        </p>
+        <h3>Moisture Content</h3>
+        <canvas id="moistureChart"></canvas>
+        <br />
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <button
+            type="button"
+            class="btn btn-primary btn-lg px-4 gap-3"
+            data-bs-toggle="popover"
+            data-bs-placement="right"
+            data-bs-custom-class="custom-popover"
+            data-bs-title="Custom popover"
+            data-bs-content="This popover is themed via CSS variables."
+          >
+            Start Manual Irrigation
+          </button>
+
+          <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+            Stop Irrigation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <hr />
+      <h2>Graphical data</h2>
+      <hr />
+
+      <!-- Updated canvas size -->
+      <canvas class="my-4" id="myChart"></canvas>
+      <hr />
+
+      <h2>Tabular data</h2>
+      <hr />
+      <div class="table-responsive small">
+        <table class="table table-striped table-sm" id="dataTable">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Sensor ID</th>
+              <th scope="col">Day</th>
+              <th scope="col">Soil Moisture Level (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example rows -->
+            <tr>
+              <th scope="row">1</th>
+              <td>Sensor 1</td>
+              <td>Day 1</td>
+              <td>65</td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+
+        <!-- Form for adding new data -->
+        <form id="addDataForm">
+          <div class="mb-3">
+            <label for="sensorID">Sensor ID:</label>
+            <input
+              type="text"
+              id="sensorID"
+              name="sensorID"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="day">Day:</label>
+            <input
+              type="text"
+              id="day"
+              name="day"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="moistureLevel">Soil Moisture Level (%):</label>
+            <input
+              type="number"
+              id="moistureLevel"
+              name="moistureLevel"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <button type="button" class="btn btn-primary" onclick="addData()">
+              Add Data
+            </button>
+          </div>
+        </form>
+      </div>
+      <hr />
+    </main>
+
+    <footer
+      class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+    >
+      <div class="col-md-4 d-flex align-items-center">
+        <a
+          href="/"
+          class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1"
+        >
+          <svg class="bi" width="30" height="24">
+            <use xlink:href="#bootstrap"></use>
+          </svg>
+        </a>
+        <span class="mb-3 mb-md-0 text-body-secondary"
+          >© 2023 Soil Sensing & Irrigation Module, KISSAN Inc</span
+        >
+      </div>
+    </footer>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+
+      const video1 = document.getElementById("video1");
+      const video2 = document.getElementById("video2");
+      const video3 = document.getElementById("video3");
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+        })
+        .then((stream) => {
+          video1.srcObject = stream;
+          video2.srcObject = stream;
+          video3.srcObject = stream;
+        });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to generate random data for each sensor
+        function generateRandomData() {
+          return Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random value between 50 and 100
+        }
+
+        // Chart for moisture levels
+        var moistureCtx = document
+          .getElementById("moistureChart")
+          .getContext("2d");
+        var moistureChart = new Chart(moistureCtx, {
+          type: "pie",
+          data: {
+            labels: ["Average Moisture", "Remaining"],
+            datasets: [
+              {
+                data: [getAverage(), 100 - getAverage()],
+                backgroundColor: [
+                  "rgba(0, 102, 204, 0.2)",
+                  "rgba(255, 0, 0, 0.2)",
+                ],
+                borderColor: ["rgba(0, 102, 204, 1)", "rgba(255, 0, 0, 1)"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+          },
+        });
+
+        // Function to update pie chart data at regular intervals
+        function updateMoistureChartData() {
+          moistureChart.data.datasets[0].data = [
+            getAverage(),
+            100 - getAverage(),
+          ];
+          moistureChart.update();
+        }
+
+        // Update pie chart data every 5 seconds (5000 milliseconds)
+        setInterval(updateMoistureChartData, 5000);
+
+        // Function to calculate the average of the three sensors
+        function getAverage() {
+          var sensor1 = generateRandomData();
+          var sensor2 = generateRandomData();
+          var sensor3 = generateRandomData();
+          return (sensor1 + sensor2 + sensor3) / 3;
+        }
+        // Bar chart for moisture levels
+        var ctx = document.getElementById("myChart").getContext("2d");
+
+        var myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Sensor 1", "Sensor 2", "Sensor 3"],
+            datasets: [
+              {
+                label: "Moisture Levels",
+                data: [
+                  generateRandomData(),
+                  generateRandomData(),
+                  generateRandomData(),
+                ],
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+            responsive: false,
+            maintainAspectRatio: false,
+            aspectRatio: 1,
+          },
+        });
+
+        // Function to update bar chart data at regular intervals
+        function updateChartData() {
+          myChart.data.datasets[0].data = [
+            generateRandomData(),
+            generateRandomData(),
+            generateRandomData(),
+          ];
+          myChart.update();
+        }
+
+        // Update bar chart data every 5 seconds (5000 milliseconds)
+        setInterval(updateChartData, 5000);
+      });
+
+      function addData() {
+        // Get form values
+        var sensorID = document.getElementById("sensorID").value.trim();
+        var day = document.getElementById("day").value.trim();
+        var moistureLevel = document
+          .getElementById("moistureLevel")
+          .value.trim();
+
+        // Check for empty inputs
+        if (!sensorID || !day || !moistureLevel) {
+          alert("Please fill in all the fields.");
+          return;
+        }
+        // Get table reference
+        var table = document.getElementById("dataTable");
+
+        // Insert a new row in the table
+        var newRow = table.insertRow(-1);
+
+        // Insert cells in the row
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+
+        // Fill cells with data
+        cell1.innerHTML = table.rows.length - 1; // Index
+        cell1.style.fontWeight = "bold"; // Set the font weight to bold
+        cell2.innerHTML = sensorID;
+        cell3.innerHTML = day;
+        cell4.innerHTML = moistureLevel;
+
+        // Clear the form
+        document.getElementById("addDataForm").reset();
+      }
+    </script>
+  </body>
+</html>

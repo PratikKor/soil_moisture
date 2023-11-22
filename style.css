@@ -1,0 +1,196 @@
+.bi {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+}
+
+/*
+ * Sidebar
+ */
+
+table {
+  align-items: center;
+}
+
+.container {
+  margin-top: 70px;
+}
+
+.h2 {
+  position: relative;
+  margin: none;
+  background-color: red;
+}
+
+main {
+  margin: 100px;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
+  position: absolute;
+  color: #fff;
+}
+
+ul button {
+  background-color: blue;
+}
+
+@media (min-width: 768px) {
+  .sidebar .offcanvas-lg {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 48px;
+  }
+  .navbar-search {
+    display: block;
+  }
+}
+
+#video {
+  display: inline-block;
+}
+
+#butn {
+  background-color: #fff;
+}
+
+h2 {
+align-items: center;}
+
+li {
+  gap: 100px;
+}
+
+.sidebar .nav-link {
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+}
+
+/* Additional Styles for Enhanced Styling and Responsiveness */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+/* Header Styles */
+
+.px-2 {
+  padding: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.display-5 {
+  font-size: 2.5rem;
+}
+
+/* Video Styles */
+
+video {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Moisture Chart Styles */
+
+canvas#moistureChart {
+  width: 100%;
+  max-width: 300px; /* Adjust this value as needed */
+  height: auto;
+  margin: auto;
+  background-color:aliceblue;
+  border-radius: 10%;
+}
+
+/* Main Content Styles */
+
+main {
+  padding: 2rem;
+}
+
+/* Footer Styles */
+
+footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+/* Responsive Table Styles */
+
+.table-responsive {
+  overflow-x: hidden;
+}
+
+/* Form Styles */
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Button Styles */
+
+.btn-custom {
+  height: 2rem;
+}
+
+/* Media Queries for Responsive Design */
+
+@media (max-width: 768px) {
+  .display-5 {
+    font-size: 2rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}
+canvas#myChart {
+  width: 100%;
+  max-width: 500px; /* Adjust this value to set the maximum width in pixels */
+  height: auto;
+  margin: auto;
+  margin-bottom: 20px; /* Adjust this value to set the bottom margin in pixels */
+  background-color:aliceblue ;
+  border-radius: 10%;
+}
+
+.custom-popover {
+  --bs-popover-max-width: 200px;
+  --bs-popover-border-color: var(--bd-violet-bg);
+  --bs-popover-header-bg: var(--bd-violet-bg);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
